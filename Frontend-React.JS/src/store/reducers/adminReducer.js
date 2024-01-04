@@ -1,30 +1,72 @@
 import actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    isLoggedIn: false,
-    adminInfo: null
+    isLoading: false,
+    genders: [],
+    roles: [],
+    positions: [],
 }
 
 const appReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.ADMIN_LOGIN_SUCCESS:
+        case actionTypes.FETCH_GENDER_START:
+            let copyState = {...state};
+            copyState.isLoading = true;
+            console.log('fire fetch gender start',action);
             return {
-                ...state,
-                isLoggedIn: true,
-                adminInfo: action.adminInfo
-            }
-        case actionTypes.ADMIN_LOGIN_FAIL:
+                ...copyState
+              
+        }
+        case actionTypes.FETCH_GENDER_SUCCESS:
+          state.genders = action.data;
+                   
+        state.isLoading = false;
+            console.log('fire fetch gender success',action);
+
             return {
-                ...state,
-                isLoggedIn: false,
-                adminInfo: null
-            }
-        case actionTypes.PROCESS_LOGOUT:
+                ...state
+              
+        }
+        case actionTypes.FETCH_GENDER_FAILED:
+            console.log('fire fetch gender failed',action);
+            
+       
+            state.genders = [];
             return {
-                ...state,
-                isLoggedIn: false,
-                adminInfo: null
-            }
+                ...state
+              
+        }
+
+        case actionTypes.FETCH_POSITION_SUCCESS:
+            state.positions = action.data;
+            console.log('fire fetch position success',action);
+              return {
+                  ...state
+                
+          }
+          case actionTypes.FETCH_POSITION_FAILED:
+    
+              state.positions = [];
+              return {
+                  ...state
+                
+          }
+          
+          case actionTypes.FETCH_ROLE_SUCCESS:
+            state.roles = action.data;
+            console.log('fire fetch role success',action);
+              return {
+                  ...state
+                
+          }
+          case actionTypes.FETCH_ROLE_FAILED:
+    
+              state.roles = [];
+              return {
+                  ...state
+                
+          }
+
         default:
             return state;
     }

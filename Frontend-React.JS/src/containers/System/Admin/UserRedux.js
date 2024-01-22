@@ -7,7 +7,7 @@ import * as actions from '../../../store/actions'
 import './UserRedux.scss'
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css'
-
+import TableManageUser from './TableManageUser';
 class UserRedux extends Component {
 
     constructor(props){
@@ -18,6 +18,8 @@ class UserRedux extends Component {
             roleArr:[],
             previewImgURL:'',
             isOpen:false,
+
+
 
             email:'',
             password:'',
@@ -57,19 +59,42 @@ class UserRedux extends Component {
     }
     componentDidUpdate(preProps, prevState,snapshoot){
         if(preProps.genderRedux !== this.props.genderRedux){
+            let arrGenders = this.props.genderRedux;
             this.setState({
-                genderArr: this.props.genderRedux
+                genderArr: arrGenders,
+                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].key:''
             })
         }
 
         if(preProps.roleRedux !== this.props.roleRedux){
+            let arrRoles = this.props.roleRedux;
+
             this.setState({
-                roleArr: this.props.roleRedux
+                roleArr: arrRoles,
+                role: arrRoles && arrRoles.length >0 ? arrRoles[0].key : '' 
             })
         }
         if(preProps.positionRedux !== this.props.positionRedux){
+            let arrPositions = this.props.positionRedux
             this.setState({
-                positionArr: this.props.positionRedux
+
+                positionArr: arrPositions,
+                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].key : ''
+            })
+        }
+        if(preProps.listUsers !== this.props.listUsers){
+
+            this.setState({
+                email:'',
+                password:'',
+                firstName:'',
+                lastName:'',
+                phoneNumber:'',
+                address:'',
+                gender:'',
+                position:'',
+                role:'',
+                avatar:'',
             })
         }
 
@@ -94,7 +119,41 @@ class UserRedux extends Component {
         })
     }
     handleSaveUser =()=>{
+        let isValid =  this.checkValidateInput();
+        if(isValid === false) return;
+
+ 
+
+        //fire redux action
         
+        this.props.createNewUser({
+            email: this.state.email,
+            password: this.state.password,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            address : this.state.address,
+            phonenumber: this.state.phoneNumber,
+            gender: this.state.gender ,
+            roleId:this.state.role,
+            positionId: this.state.position,
+        })
+
+
+
+    }
+    checkValidateInput = () =>{
+        let isValid= true;
+            let arrCheck = ['email','password','firstName','lastName','phoneNumber',
+                'address']
+            for(let i=0;i < arrCheck.length;i++){
+                if(!this.state[arrCheck[i]]){
+                    isValid =false;
+                    alert('This input is required: ' + arrCheck[i]);
+                    break;
+                }
+        }
+        return isValid;
+
     }
     onChangeInput = (event,id) =>{
         let copyState ={...this.state}
@@ -104,20 +163,8 @@ class UserRedux extends Component {
         this.setState({
 
             ...copyState
-        },()=>{
-            console.log('hoi dan it check input onchange',this.state)
         })
-        // email:'',
-        // password:'',
-        // lastName:'',
-        // phoneNumber:'',
-        // address:'',
-        // gender:'',
-        // position:'',
-        // role:'',
-        // avatar:'',
-
-        // email,password,lastName,phoneNumber,address,gender,position,role,avatar
+      
     }
 
     render() {
@@ -266,14 +313,18 @@ class UserRedux extends Component {
 
                                   </div>
                             </div>
-                            <div className='col-12 mt-3'>
+                            <div className='col-12 my-3'>
                                     <button className='btn btn-primary'
                                     onClick={() => this.handleSaveUser()}
                                     
                                     ><FormattedMessage id="manage-user.save"></FormattedMessage></button>
 
                             </div>
+                        
 
+                            <div className='col-12'>
+                                    <TableManageUser></TableManageUser>
+                            </div>
 
 
 
@@ -304,7 +355,8 @@ const mapStateToProps = state => {
         genderRedux: state.admin.genders,
         roleRedux: state.admin.roles,
         positionRedux: state.admin.positions,
-        isLoadingGender: state.admin.isLoading
+        isLoadingGender: state.admin.isLoading,
+        listUsers : state.admin.users
 
     };
 };
@@ -315,7 +367,9 @@ const mapDispatchToProps = dispatch => {
         // changeLanguageAppRedux:(language) => dispatch(actions.changeLanguageApp(language))
         getGenderStart: () => dispatch(actions.fetchGenderStart()),
         getPositionStart: () => dispatch(actions.fetchPositionStart()),
-        getRoleStart: () => dispatch(actions.fetchRoleStart())
+        getRoleStart: () => dispatch(actions.fetchRoleStart()),
+        createNewUser: (data) => dispatch(actions.createNewUser(data)),
+        fetchUserRedux: ()=> dispatch(actions.fetchAllUserStart())
 
     };
 };

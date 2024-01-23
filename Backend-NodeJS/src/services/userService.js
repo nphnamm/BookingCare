@@ -138,7 +138,7 @@ let createNewUser = (data) =>{
                     gender: data.gender ,
                     roleId:data.roleId,
                     positionId: data.positionId,
-                    
+                    image: data.avatar
                     
     
                 })
@@ -198,9 +198,19 @@ let updateUserData = (data) =>{
             })
             if(user){
   
-                user.firstName = data.firstName,
-                user.lastName = data.lastName,
-                user.address = data.address,
+                user.firstName = data.firstName;
+                user.lastName = data.lastName;
+                user.address = data.address;
+                user.phonenumber = data.phonenumber;
+                user.gender = data.gender ;
+                user.roleId =data.roleId;
+                user.positionId = data.positionId;
+                if(data.avatar){
+                    user.image = data.avatar
+
+
+                }
+                
                 await user.save();
 
                 // let allUser = await db.User.findAll();

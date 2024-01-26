@@ -266,3 +266,36 @@ export const updateUserFailed = () =>({
     type: actionTypes.UPDATE_USER_FAILED
 })
 
+// let rest = await getTopDoctorHomeService(3)
+
+export const fetchTopDoctor = () =>{
+    return async(dispatch,getState) => {
+        try{
+            let res =  await getTopDoctorHomeService('10');
+            console.log('check res doctor',res);
+            if(res && res.errCode === 0){
+                dispatch({
+
+                    type: actionTypes.FETCH_TOP_DOCTORS_SUCCESS,
+                    dataDoctors: res.data
+
+                })
+            }else {
+                dispatch({
+
+                    type: actionTypes.FETCH_TOP_DOCTORS_FAILED
+
+                })
+
+            }
+        }catch(e){
+            console.log('error of fetch top doctor: ',e)
+            dispatch({
+
+                type: actionTypes.FETCH_TOP_DOCTORS_FAILED
+
+            })
+        }
+    }
+
+}

@@ -6,7 +6,8 @@ const initialState = {
     roles: [],
     positions: [],
     users: [],
-    topDoctor:[]
+    topDoctor:[],
+    allDoctor:[]
 }
 
 const appReducer = (state = initialState, action) => {
@@ -94,6 +95,23 @@ const appReducer = (state = initialState, action) => {
         case actionTypes.FETCH_TOP_DOCTORS_FAILED:
     
         state.topDoctor = [];
+        return {
+            ...state
+    
+        }
+
+        case actionTypes.FETCH_ALL_DOCTORS_SUCCESS:
+    
+        state.allDoctor = action.dataAllDoctors;
+        console.log('check allDoctor',state.allDoctor)
+        return {
+            ...state
+    
+        }
+
+        case actionTypes.FETCH_ALL_DOCTORS_FAILED:
+    
+        state.allDoctor = [];
         return {
             ...state
     

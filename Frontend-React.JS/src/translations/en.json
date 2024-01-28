@@ -15,7 +15,7 @@
 
     },
     "banner":{
-        "title-1":"MEDICAL BACKGROUND",
+        "title-1":"MEDICAL PLATFORM",
         "title-2":"COMPREHENSIVE HEALTH CARE",
         "child-1":"Specialized examination",
         "child-2":"Remote examination",
@@ -58,6 +58,10 @@
 
 
 
+    },
+    "homepage":{
+        "out-standing-doctor":"Last week's featured doctor",
+        "more-information":"More Information"
     }
 
 }

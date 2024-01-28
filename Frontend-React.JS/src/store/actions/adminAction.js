@@ -5,7 +5,8 @@ import {
     getAllUsers,
     deleteUserService,
     editUserService,
-    getTopDoctorHomeService
+    getTopDoctorHomeService,
+    getAllDoctors
 } from '../../services/userService';
 import {toast } from "react-toastify";
 // export const fetchGenderStart= () => ({
@@ -271,7 +272,7 @@ export const updateUserFailed = () =>({
 export const fetchTopDoctor = () =>{
     return async(dispatch,getState) => {
         try{
-            let res =  await getTopDoctorHomeService('10');
+            let res =  await getTopDoctorHomeService();
             console.log('check res doctor',res);
             if(res && res.errCode === 0){
                 dispatch({
@@ -293,6 +294,70 @@ export const fetchTopDoctor = () =>{
             dispatch({
 
                 type: actionTypes.FETCH_TOP_DOCTORS_FAILED
+
+            })
+        }
+    }
+
+}
+
+// export const fetchAllDoctors = () =>{
+//     return async(dispatch,getState) => {
+//         try{
+//             let res =  await getAllDoctors();
+//             console.log('check all doctor',res);
+//             if(res && res.errCode === 0){
+//                 dispatch({
+
+//                     type: actionTypes.FETCH_ALL_DOCTORS_SUCCESS,
+//                     dataDr: res.data
+
+//                 })
+//             }else {
+//                 dispatch({
+
+//                     type: actionTypes.FETCH_ALL_DOCTORS_FAILED
+
+//                 })
+
+//             }
+//         }catch(e){
+//             console.log('error of fetch top doctor: ',e)
+//             dispatch({
+
+//                 type: actionTypes.FETCH_ALL_DOCTORS_FAILED
+
+//             })
+//         }
+//     }
+
+// }
+
+export const fetchAllDoctors = () =>{
+    return async(dispatch,getState) => {
+        try{
+            let res =  await getAllDoctors();
+            console.log('check all doctor',res);
+            if(res && res.errCode === 0){
+                dispatch({
+
+                    type: actionTypes.FETCH_ALL_DOCTORS_SUCCESS,
+                    dataAllDoctors: res.data
+
+                })
+            }else {
+                dispatch({
+
+                    type: actionTypes.FETCH_ALL_DOCTORS_FAILED
+
+                })
+
+            }
+        }catch(e){
+            console.log('error of fetch top doctor: ',e)
+            dispatch({
+
+                type: actionTypes.FETCH_ALL_DOCTORS_FAILED
 
             })
         }

@@ -34,6 +34,12 @@ class Login extends Component {
         })
         console.log(event.target.value);
     }
+    handleKeyDown = (event) =>{
+        console.log('check keydown',event)
+        if(event.key === 'Enter'){
+            this.handleLogin();
+        }
+    }
 
 
     handleLogin = async() =>{
@@ -97,6 +103,7 @@ class Login extends Component {
                                     className="form-control" 
                                     placeholder="Enter your password"
                                     onChange={(event)=> this.handleOnchangePassword(event)}
+                                    onKeyDown={(event) => this.handleKeyDown(event)}
 
                                     >
 

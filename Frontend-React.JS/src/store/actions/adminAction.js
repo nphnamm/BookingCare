@@ -7,7 +7,7 @@ import {
     editUserService,
     getTopDoctorHomeService,
     getAllDoctors,
-    saveDetailDoctor    
+    saveDetailDoctorService    
 } from '../../services/userService';
 import {toast } from "react-toastify";
 // export const fetchGenderStart= () => ({
@@ -369,7 +369,7 @@ export const fetchAllDoctors = () =>{
 export const saveDetailDoctors = (data) =>{
     return async(dispatch,getState) => {
         try{
-            let res =  await saveDetailDoctor(data);
+            let res =  await saveDetailDoctorService(data);
             console.log('check all doctor',res);
             if(res && res.errCode === 0){
                 toast.success("Save for Infor detail doctor succeed")
@@ -395,6 +395,38 @@ export const saveDetailDoctors = (data) =>{
             dispatch({
 
                 type: actionTypes.SAVE_DETAIL_DOCTORS_FAILED
+
+            })
+        }
+    }
+
+}
+
+export const fetchAllScheduleTime = (type) =>{
+    return async(dispatch,getState) => {
+        try{
+            let res =  await getAllCodeService("TIME");
+            console.log('check all doctor',res);
+            if(res && res.errCode === 0){
+                dispatch({
+
+                    type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_SUCCESS,
+                    dataTime: res.data
+
+                })
+            }else {
+                dispatch({
+
+                    type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_FAILED
+
+                })
+
+            }
+        }catch(e){
+            console.log('error of fetch top doctor: ',e)
+            dispatch({
+
+                type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_FAILED
 
             })
         }

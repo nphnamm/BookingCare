@@ -4,7 +4,12 @@ import Slider from "react-slick";
 import * as actions from '../../../store/actions';
 import { LANGUAGES } from '../../../utils';
 import { FormattedMessage } from 'react-intl';
+// import { useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import {withRouter} from 'react-router';
+
 class OutStandingDoctor extends Component {
+    // history = useHistory();
 
     constructor(props){
         super(props)
@@ -21,8 +26,14 @@ class OutStandingDoctor extends Component {
     }
     componentDidMount(){
         this.props.loadTopDoctors();
+        
 
+    }
 
+    handleViewDetailDoctor = (item) =>{
+        console.log('view infor', item)
+        this.props.history.push(`/detail-doctor/${item.id}`);
+        // return <Redirect to="user" push={true}></Redirect>
     }
     render() {
         let arrDoctors = this.state.arrDoctors;
@@ -60,7 +71,7 @@ class OutStandingDoctor extends Component {
                     let nameEn = `${item.positionData.valueEn},${item.firstName} ${item.lastName}`;
                     return (
                            
-                        <div className='section-customize' key={index}>
+                        <div className='section-customize' key={index} onClick={() => this.handleViewDetailDoctor(item)}>
                         <div className='customize-border'>
                             <div className='outer-bg'>
 
@@ -109,4 +120,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OutStandingDoctor);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OutStandingDoctor));

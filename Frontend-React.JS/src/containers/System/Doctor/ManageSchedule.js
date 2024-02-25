@@ -17,7 +17,7 @@ class ManageSchedule extends Component {
             listDoctors: [],
             selectedDoctor: {},
             currentDate: new Date(),
-            rangeTime: []
+            rangeTime: [],
 
         }
     }
@@ -115,6 +115,12 @@ class ManageSchedule extends Component {
             })
             console.log('check res : saveBulk Schedule Doctor', res)
             
+            if(res && res.errCode === 0){
+                toast.success("Save infor succeed");
+            }else{
+                toast.error("error save BulkScheduleDoctor");
+                console.log('error saveBulkScheduleDoctor >>> res:', res);
+            }
         }
         console.log('channel check result:', result);
     }
@@ -122,6 +128,17 @@ class ManageSchedule extends Component {
         console.log('check props', this.state);
         let {rangeTime} = this.state;
         let {language} = this.props;
+        let yesterday= new Date(new Date().setDate(new Date().getDate() -1));
+        let yesterday_1= new Date(new Date().setDate());
+        let yesterday_2= new Date(new Date() -1);
+        let yesterday_3 = new Date();
+
+
+        console.log('check yesterday: ',yesterday);
+        console.log('check yesterday 1: ',yesterday_1)
+        console.log('check yesterday 2: ',yesterday_2)
+        console.log('check yesterday 3: ',yesterday_3)
+
 
         return (
            
@@ -151,7 +168,7 @@ class ManageSchedule extends Component {
                                         className='form-control'
                                         value={this.state.currentDate}
                                         // selected={this.state.currentDate}
-                                        minDate={new Date()}
+                                        minDate={yesterday_2}
                                         />
 
                                     

@@ -12,8 +12,9 @@ class DefaultClass extends Component {
 
     constructor(props){
         super(props)
-        this.setState({
-        })
+        this.state ={
+          
+        }
     }
 
     async componentDidMount () {

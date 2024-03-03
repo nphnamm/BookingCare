@@ -39,7 +39,7 @@ let postBookAppointment = (data) =>{
                         roleId:'R3'
                     }
                 });
-                console.log('check user from post book appointment', user[0]);
+                // console.log('check user from post book appointment', user[0]);
                 if(user && user[0]){
                     await db.Booking.findOrCreate({
                         where: {patientId: user[0].id},

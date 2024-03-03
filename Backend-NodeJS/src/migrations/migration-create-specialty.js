@@ -9,11 +9,18 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       image: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BLOB('long')
       },
-      description: {
-        type: Sequelize.INTEGER
+      name:{
+        type:Sequelize.STRING
       },
+      descriptionHTML: {
+        type: Sequelize.TEXT
+      },
+      descriptionMarkdown:{
+        type: Sequelize.TEXT
+      }
+      ,
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

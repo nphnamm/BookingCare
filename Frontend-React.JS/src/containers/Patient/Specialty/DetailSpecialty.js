@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { getAllCodeService } from '../../../services/userService';
-import {LANGUAGES , CRUD_ACTIONS, CommonUtils} from "../../../utils";
-import * as actions from '../../../store/actions'
-import './DefaultClass.scss'
-import Lightbox from 'react-image-lightbox';
-import 'react-image-lightbox/style.css'
-import TableManageUser from './TableManageUser';
-class DefaultClass extends Component {
+import './DetailSpecialty.scss'
+import HomeHeader from '../../HomePage/HomeHeader';
+import DoctorSchedule from '../Doctor/DoctorSchedule';
+import DoctorExtraInfor from '../Doctor/DoctorExtraInfor';
+import ProfileDoctor from '../Doctor/ProfileDoctor';
+
+
+class DetailSpecialty extends Component {
 
     constructor(props){
         super(props)
@@ -29,14 +29,19 @@ class DefaultClass extends Component {
     }
   
     render() {
-
+        return(
+            <>
+            <HomeHeader/>
+            <div>Hello world from detai specialty </div>
+            </>
+        )
     }
 
 }
 
 const mapStateToProps = state => {
     return {
-        language: state.app.language
+        language: state.app.language,
     };
 };
 
@@ -46,4 +51,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DefaultClass);
+export default connect(mapStateToProps, mapDispatchToProps)(DetailSpecialty);

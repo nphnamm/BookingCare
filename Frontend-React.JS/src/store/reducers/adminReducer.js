@@ -17,7 +17,7 @@ const appReducer = (state = initialState, action) => {
         case actionTypes.FETCH_GENDER_START:
             let copyState = {...state};
             copyState.isLoading = true;
-            console.log('fire fetch gender start',action);
+            // console.log('fire fetch gender start',action);
             return {
                 ...copyState
               
@@ -26,14 +26,14 @@ const appReducer = (state = initialState, action) => {
           state.genders = action.data;
                    
         state.isLoading = false;
-            console.log('fire fetch gender success',action);
+            // console.log('fire fetch gender success',action);
 
             return {
                 ...state
               
         }
         case actionTypes.FETCH_GENDER_FAILED:
-            console.log('fire fetch gender failed',action);
+            // console.log('fire fetch gender failed',action);
             
        
             state.genders = [];
@@ -44,7 +44,7 @@ const appReducer = (state = initialState, action) => {
 
         case actionTypes.FETCH_POSITION_SUCCESS:
             state.positions = action.data;
-            console.log('fire fetch position success',action);
+            // console.log('fire fetch position success',action);
               return {
                   ...state
                 
@@ -59,7 +59,7 @@ const appReducer = (state = initialState, action) => {
           
           case actionTypes.FETCH_ROLE_SUCCESS:
             state.roles = action.data;
-            console.log('fire fetch role success',action);
+            // console.log('fire fetch role success',action);
               return {
                   ...state
                 
@@ -105,7 +105,7 @@ const appReducer = (state = initialState, action) => {
         case actionTypes.FETCH_ALL_DOCTORS_SUCCESS:
     
         state.allDoctor = action.dataAllDoctors;
-        console.log('check allDoctor',state.allDoctor)
+        // console.log('check allDoctor',state.allDoctor)
         return {
             ...state
     
@@ -122,7 +122,7 @@ const appReducer = (state = initialState, action) => {
         case actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_SUCCESS:
     
         state.allScheduleTime = action.dataTime;
-        console.log('check allDoctor',state.allScheduleTime)
+        // console.log('check allDoctor',state.allScheduleTime)
         return {
             ...state
     
@@ -138,7 +138,7 @@ const appReducer = (state = initialState, action) => {
         case actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_SUCCESS:
     
         state.allRequiredDoctorInfor = action.data;
-        console.log("fetch required doctor infor", action);
+        // console.log("fetch required doctor infor", action);
         return {
             ...state
     

@@ -7,6 +7,7 @@ import { getProfileDoctorById } from '../../../services/userService';
 import NumberFormat from 'react-number-format';
 import _ from 'lodash';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 class ProfileDoctor extends Component {
 
@@ -21,6 +22,8 @@ class ProfileDoctor extends Component {
     }
 
     async componentDidMount () {
+        console.log('Props:', this.props);
+
         let data = await this.getInforDoctor(this.props.doctorId);
         this.setState({
             dataProfile: data
@@ -70,10 +73,10 @@ class ProfileDoctor extends Component {
     render() {
 
         let {dataProfile} = this.state;
-        let {language ,isShowDecriptionDoctor,dataTime}=this.props;
-        console.log('check state of ProfileDoctor: ', this.state);
-        console.log('check dateTime: ', dataTime);
-        console.log('check isShowDescription: ', isShowDecriptionDoctor);
+        let {language ,isShowDecriptionDoctor,dataTime, isShowLinkDetail, isShowPrice,doctorId}=this.props;
+        // console.log('check state of ProfileDoctor: ', this.state);
+        // console.log('check dateTime: ', dataTime);
+        // console.log('check isShowDescription: ', isShowDecriptionDoctor);
 
         let nameVi ='', nameEn='';
         if(dataProfile && dataProfile.positionData){
@@ -117,13 +120,18 @@ class ProfileDoctor extends Component {
                             
                         }
                         </div>
-
-                
                     </div>
-                  
-
                 </div>
-                <div className='price'>
+
+                {isShowLinkDetail === true && 
+                    <div className="view-detail-doctor">
+                            
+                            <Link to={`/detail-doctor/${doctorId}`}>Xem Thêm</Link>
+                    </div>
+                
+                }
+                {isShowPrice ===true &&
+                        <div className='price'>
                         <FormattedMessage id="patient.booking-modal.price"/>
                         
                                     {dataProfile && dataProfile.Doctor_Infor && language === LANGUAGES.VI
@@ -155,7 +163,9 @@ class ProfileDoctor extends Component {
 
                                  
 
-                     </div>
+                </div>
+                }
+        
             
 
             </div>

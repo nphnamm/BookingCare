@@ -104,7 +104,8 @@ class BookingModal extends Component {
             email: this.state.email,
             address:this.state.address,
             reason:this.state.reason,
-            date: date,
+            date: this.props.dataTime.date,
+            birthday:date,
             selectedGender:this.state.selectedGender.value,
             doctorId:this.state.doctorId,
             timeType:this.state.timeType,
@@ -153,9 +154,9 @@ class BookingModal extends Component {
         if (dataTime && !_.isEmpty(dataTime)){
             doctorId = dataTime.doctorId;
         }
-        console.log('check data time: ', dataTime);
-        console.log('check doctorId : ', doctorId);
-        console.log('check state ',this.state)
+        // console.log('check data time: ', dataTime);
+        // console.log('check doctorId : ', doctorId);
+        // console.log('check state ',this.state)
         return(
                 <>
                 <Modal
@@ -183,6 +184,8 @@ class BookingModal extends Component {
                                     doctorId={doctorId}
                                     dataTime={dataTime}
                                     isShowDecriptionDoctor={false}
+                                    isShowLinkDetail={false}
+                                    isShowPrice ={true}
                                     />
                             </div>
                     

@@ -65,13 +65,14 @@ export const adminMenu = [
 export const doctorMenu = [
     { //quản lý người dùng
         name: 'menu.admin.manage-user',
-        menus:[
-      
-                    
+        menus:[         
                     {
                         name: 'menu.doctor.manage-schedule',link:'/doctor/manage-schedule'
                     }
                     ,
+                    {
+                        name: 'menu.doctor.manage-patient',link:'/doctor/manage-patient'
+                    }
                 
          
         ]

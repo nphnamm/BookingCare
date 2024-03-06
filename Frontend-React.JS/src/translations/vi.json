@@ -41,7 +41,9 @@
 
         },
         "doctor":{
-            "manage-schedule":"Quản lý kế hoạch khám bệnh"
+            "manage-schedule":"Quản lý kế hoạch khám bệnh",
+            "manage-patient":"Quản lý bệnh nhân khám bệnh"
+
         }
     },
     "manage-user":{
@@ -118,7 +120,7 @@
             "nameClinic":"Tên Phòng Khám",
             "addressClinic":"Địa chỉ phòng khám",
             "note":"Ghi chú",
-            "speciality":"Chọn chuyên khoa",
+            "specialty":"Chọn chuyên khoa",
             "select-clinic":"Chọn phòng khám"
 
         }

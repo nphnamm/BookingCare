@@ -33,16 +33,23 @@ class DetailDoctor extends Component {
                 
                 })    
             } 
-            console.log('check infor detail doctor',res);
+            // console.log('check infor detail doctor',res);
         }
     }
-    componentDidUpdate(preProps,prevState,snapshoot){
+    async componentDidUpdate(preProps,prevState,snapshoot){
 
-
+        // if(this.props.doctorIdFromParent !== preProps.doctorIdFromParent){
+        //             let res = await getExtraInforDoctorById(this.props.doctorIdFromParent);
+        //             console.log('check data from serve',res);
+        //             if(res && res.errCode === 0){
+        //                 this.setState({
+        //                     extraInfor: res.data
+        //                 })
+        //             }
+        //         }
 
     }
     render() {
-        console.log('check doctor data from state:',this.state.detailDoctor);
         let {detailDoctor} = this.state;
         let {language} = this.props;
         let nameVi = '' ; let nameEn='';
@@ -51,6 +58,8 @@ class DetailDoctor extends Component {
             nameEn = `${detailDoctor.positionData.valueEn},${detailDoctor.firstName} ${detailDoctor.lastName}`;
 
         }
+                // console.log('check doctor data from state:',this.state.detailDoctor);
+
         
 
         return (

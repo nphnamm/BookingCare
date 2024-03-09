@@ -7,7 +7,8 @@ import { lang } from 'moment';
 import { LANGUAGES } from '../../../utils';
 import DoctorSchedule from './DoctorSchedule';
 import DoctorExtraInfor from './DoctorExtraInfor';
-
+import LikeAndShare from '../SocialPlugin/LikeAndShare';
+import Comment from '../SocialPlugin/Comment';
 class DetailDoctor extends Component {
 
     constructor(props){
@@ -50,6 +51,7 @@ class DetailDoctor extends Component {
 
     }
     render() {
+
         let {detailDoctor} = this.state;
         let {language} = this.props;
         let nameVi = '' ; let nameEn='';
@@ -58,11 +60,13 @@ class DetailDoctor extends Component {
             nameEn = `${detailDoctor.positionData.valueEn},${detailDoctor.firstName} ${detailDoctor.lastName}`;
 
         }
-                // console.log('check doctor data from state:',this.state.detailDoctor);
+        let currentURL = process.env.REACT_APP_IS_LOCALHOST === 1 ?
+        "https://youtu.be/q6NvhruKV4Q?si=mvpKsmDrVKxWHzA0" : window.location.href        // console.log('check doctor data from state:',this.state.detailDoctor);
 
-        
+        console.log('check is localhost  ',process.env.REACT_APP_IS_LOCALHOST)
 
         return (
+
             <>
             
             <HomeHeader isShowBanner ={false}>
@@ -93,6 +97,13 @@ class DetailDoctor extends Component {
                         
                         
                         }
+                        <div className='like-share-plugin'>
+                            <LikeAndShare
+                                dataHref={currentURL}
+                            />
+
+
+                        </div>
 
 
                         </div>
@@ -134,7 +145,10 @@ class DetailDoctor extends Component {
                 </div>
 
                 <div className='comment-doctor'>
-
+                    <Comment
+                        dataHref={currentURL}
+                        width={"100%"}
+                    />
                 </div>
 
 

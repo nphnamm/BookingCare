@@ -62,6 +62,67 @@ let getBodyHTMLEmail = (dataSend) =>{
     }
     return result;
 }
+
+let getBodyHTMLEmailRemedy =(dataSend) =>{
+    let result = '';
+    if(dataSend.language === 'vi'){
+
+        result= `
+        <h3>Xin chào ${dataSend.patientName}!</h3>
+        <p>Bạn nhận được email này vì đã đặt lịch khám bệnh online trên trang web BookingCare</p>
+        <p>Thông tin đơn thuốc/hóa đơn được gửi trong file đính kèm.</p>
+        <div> Xin chân thành cảm ơn!</div>
+        
+        
+        `
+    }
+    if(dataSend.language === 'en'){
+        result= `
+        <h3>Dear ${dataSend.patientName}!</h3>
+        <p>You received this email because you booked an online medical appoinment on the BookingCare Website</p>
+        <p>Thông tin đơn thuốc/hóa đơn được gửi trong file đính kèm.</p>
+        <div> Sincerely Thank!</div>
+        
+        
+        `
+    }
+}
+let sendAttachment = async (dataSend) =>{
+    return new Promise(async(resolve, reject) =>{
+        try{
+            let transporter = nodemailer.createTransport({
+                host:"smtp.gmail.com",
+                port: 587,
+                secure:false,
+                auth:{
+                    user: process.env.EMAIL_APP,
+                    pass:process.env.EMAIL_APP_PASSWORD,
+        
+                },
+        
+            });
+            let infor = await transporter.sendMail({
+
+                from:'"Nguyễn Phan Hoài Nam" <nphnamm@gmail.com>',
+                to: dataSend.email,
+                subject:"Kết quả đặt lịch khám bệnh",
+               
+                html: getBodyHTMLEmailRemedy(dataSend),
+                attachments:[
+                    {
+                        filename:`remedy-${dataSend.patientId}-${new Date().getDate()}.png`,
+                        content: dataSend.imgBase64.split("base64,")[1],
+                        encoding:'base64'
+                    },
+                ],
+            });
+            resolve(true);
+        }catch(e){
+            reject(e);
+        }
+    })
+}
 module.exports ={
-    sendSimpleEmailService: sendSimpleEmail
+    sendSimpleEmailService: sendSimpleEmail,
+    sendAttachmentService: sendAttachment
 }

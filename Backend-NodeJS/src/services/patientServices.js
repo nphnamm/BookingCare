@@ -69,6 +69,7 @@ let postBookAppointment = (data) =>{
     })
 }
 
+
 let postVerifyBookAppointment =(data) =>{
     return new Promise(async(resolve ,reject)=>{
         try{
@@ -111,5 +112,5 @@ let postVerifyBookAppointment =(data) =>{
 module.exports ={
     postBookAppointmentService: postBookAppointment,
     postVerifyBookAppointmentService: postVerifyBookAppointment
-
+    
 }

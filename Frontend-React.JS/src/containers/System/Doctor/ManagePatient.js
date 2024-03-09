@@ -3,45 +3,63 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './ManagePatient.scss'
 import DatePicker from '../../../components/Input/DatePicker';
-import { getAllPatientForDoctor } from '../../../services/userService';
+import { getAllPatientForDoctor , postSendRemedy} from '../../../services/userService';
 import moment from 'moment';
+import { LANGUAGES } from '../../../utils';
+import RemedyModal from './RemedyModal';
+import { toast } from 'react-toastify';
+import LoadingOverlay from 'react-loading-overlay';
 class ManagePatient extends Component {
 
     constructor(props){
         super(props)
         this.state ={
           currentDate: moment(new Date()).startOf('day').valueOf(),
-          dataPatient: []
+          dataPatient: [],
+          isOpenRemedyModal: false,
+          dataModal:{},
+          isShowLoading:false
         }
     }
 
     async componentDidMount () {
-        let {user} = this.props;
+
+        // console.log("check: ", this.props.userInfo);
+        // this.getDataPatient(userInfo,formatedDate)
+        this.getDataPatient()
+    }
+    getDataPatient = async ()=>{
+        let {userInfo} = this.props;
         let {currentDate} = this.state;
         let formatedDate = new Date(currentDate).getTime();
-        console.log("check: ", this.props.user);
-        this.getDataPatient(user,formatedDate)
-    }
-    getDataPatient = async (user, formatedDate)=>{
-        // let res = await getAllPatientForDoctor({
-        //     doctorId: user.Id,
-        //     date: formatedDate
-        // })
-        // if(res && res.errCode ===0){
-        //     this.setState({
-        //         dataPatient: res.data
-        //     })
-        // }
+
+
+
+
+        let res = await getAllPatientForDoctor({
+            doctorId: userInfo.id,
+            date: formatedDate
+        })
+        if(res && res.errCode ===0){
+            this.setState({
+                dataPatient: res.data
+            })
+        }
     }
 
-    handOnChangeDatePicker = (date) =>{
+    handleOnChangeDatePicker = (date) =>{
+        let {currentDate} = this.state;
+
+        let formatedDate1  = new Date(currentDate).getTime();
+        console.log('check date', formatedDate1);
+        console.log('check user', this.props.userInfo);
+
+
         this.setState({
             currentDate: date[0]
-        },() =>{
-            let {user} = this.props;
-            let {currentDate} = this.state;
-            let formatedDate  = new Date(currentDate).getTime();
-            this.getDataPatient(user,formatedDate);
+        },async () =>{
+            await this.getDataPatient();
+
         })
     }
     async componentDidUpdate(preProps, prevState,snapshoot){
@@ -51,16 +69,69 @@ class ManagePatient extends Component {
 
 
     }
-    handleBtnConfirm = () =>{
-
+    handleBtnConfirm = (item) =>{
+        let data = {
+            doctorId: item.doctorId,
+            patientId: item.patientId,
+            email: item.patientData.email,
+            timeType: item.timeType,
+            patientName: item.patientData.firstName
+        }
+        this.setState({
+            isOpenRemedyModal: true,
+            dataModal: data
+        })
     }
-    handleBtnRemedy =()=>{
-
+    closeRemedyModal = () =>{
+        this.setState({
+            isOpenRemedyModal: false,
+            dataModal: {}
+        })
     }
+    sendRemedy = async (dataChild) =>{
+        let {dataModal} =this.state;
+        this.setState({
+            isShowLoading: true
+        })
+        let res = await postSendRemedy({
+            email: dataChild.email,
+            imgBase64: dataChild.imgBase64,
+            doctorId: dataModal.doctorId,
+            patientId: dataModal.patientId,
+            timeType: dataModal.timeType,
+            language: this.props.language,
+            patientname: dataModal.patientName
+
+        });
+        if(res && res.errCode === 0){
+            this.setState({
+                isShowLoading: false
+            })
+            toast.success('Send Remedy succeeds:');
+            this.closeRemedyModal();
+            await this.getDataPatient();
+        }else{
+            this.setState({
+                isShowLoading: false
+            })
+            toast.error('Something wrongs...');
+        }
+    }
+
   
     render() {
-        let {dataPatient} = this.state;
+        let {dataPatient,dataModal, isOpenRemedyModal} = this.state;
+        let {language} = this.props;
+        console.log('check state', this.state);
+        
         return(
+            <>
+            <LoadingOverlay
+            active={this.state.isShowLoading}
+            spinner
+            text='Loading...'
+            
+            >
             <div className='manage-patient-container'>
                 <div className='m-p-title'>
                     Quản lý bệnh nhân khám bệnh
@@ -69,7 +140,7 @@ class ManagePatient extends Component {
                     <div className='col-4 form-group'>
                         <label>Chọn ngày khám</label>
                         <DatePicker
-                        onChange={this.handOnChangeDatePicker}
+                        onChange={this.handleOnChangeDatePicker}
                         className="form-control"
                         value={this.state.currentDate}
                         />
@@ -89,20 +160,23 @@ class ManagePatient extends Component {
 
                                 {dataPatient && dataPatient.length > 0 ?
                                     dataPatient.map((item,index)=>{
+                                        let time = language === LANGUAGES.VI?
+                                            item.timeTypeDatePatient.valueVi : item.timeTypeDatePatient.valueEn;
+
+                                        let gender = language === LANGUAGES.VI?
+                                            item.patientData.genderData.valueVi : item.patientData.genderData.valueEn;
                                         return (
                                             <tr key={index}>
                                                 <td>{index+1}</td>
-                                                <td>{item.timeTypeDataPatient.valueVi}</td>
+                                                <td>{time}</td>
                                                 <td>{item.patientData.firstName}</td>
                                                 <td>{item.patientData.address}</td>
-                                                <td>{item.patientData.genderData.valueVi}</td>
+                                                <td>{gender}</td>
                                                 <td>
                                                     <button className='mp-btn-confirm'
-                                                        onClick={() =>this.handleBtnConfirm()}
+                                                        onClick={() =>this.handleBtnConfirm(item)}
                                                     >Xác nhận</button>
-                                                    <button className='mp-btn-remedy'
-                                                        onClick={() =>this.handleBtnRemedy()}
-                                                    >Gửi Hóa đơn</button>
+                                                    
                                                 </td>
 
                                             </tr>
@@ -111,7 +185,11 @@ class ManagePatient extends Component {
                             
                                 
                                 :
-                                <tr>No data</tr>
+                                <tr>
+                                    <td colSpan="6" style={{textAlign:"center"}}>  No data
+                                    </td>    
+                                  
+                                </tr>
                                 }
                                 </tbody>
                             </table>
@@ -121,6 +199,15 @@ class ManagePatient extends Component {
                 </div>
 
             </div>
+                                <RemedyModal
+                                    isOpenModal={isOpenRemedyModal}
+                                    dataModal={dataModal}
+                                    closeRemedyModal={this.closeRemedyModal}
+                                    sendRemedy={this.sendRemedy}
+                                />
+
+            </LoadingOverlay>
+            </>
 
         )
     }
@@ -130,7 +217,7 @@ class ManagePatient extends Component {
 const mapStateToProps = state => {
     return {
         language: state.app.language,
-        user: state.user.userInfor,
+        userInfo: state.user.userInfo,
 
     };
 };

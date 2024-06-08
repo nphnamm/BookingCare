@@ -27,7 +27,7 @@ Booking Care là một ứng dụng web toàn diện giúp bệnh nhân dễ dà
 - **cd Frontend-React.JS**
 - **npm install  # Install frontend (React) dependencies**
 - **cd Backend-NodeJS**
-- **npm install  # Install backend (Node.js) dependencies*
+- **npm install  # Install backend (Node.js) dependencies**
 3. **Run the application:**
   
    # In the frontend directory:

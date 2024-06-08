@@ -24,23 +24,16 @@ Booking Care là một ứng dụng web toàn diện giúp bệnh nhân dễ dà
    git clone git@github.com:nphnamm/BookingCare.git'
    
 2. **Install dependencies:**
-cd BookingCare
-  npm install  # Install frontend (React) dependencies
-  cd backend
-  npm install  # Install backend (Node.js) dependencies
+- **cd Frontend-React.JS**
+- **npm install  # Install frontend (React) dependencies**
+- **cd Backend-NodeJS**
+- **npm install  # Install backend (Node.js) dependencies*
 3. **Run the application:**
-4. **Project Structure:**
-BookingCare/
-├── frontend/          # React source code
-│   ├── public/
-│   ├── src/           # Components, Redux, styles, ...
-│   └── package.json
-├── backend/           # Node.js source code
-│   ├── config/
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   └── package.json
-├── .gitignore
-└── README.md
+  
+   # In the frontend directory:
+   npm start
+   
+   # In the backend directory:
+   npm run dev
+
  
